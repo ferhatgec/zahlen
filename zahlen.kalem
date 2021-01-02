@@ -1,0 +1,78 @@
+// MIT License
+// 
+// Copyright (c) 2021 Ferhat Geçdoğan All Rights Reserved.
+// Distributed under the terms of the MIT License.
+//
+
+// Import STL C++ libraries
+#import <iostream>
+#import <vector>
+
+// Import PlusPlus libraries
+#import "libraries/FileSystemPlusPlus.h"
+#import "libraries/IntelligenTUI.hpp"
+
+@PushDirectories(std::vector<std::string> &dirs) void {
+    #DIR *directory;
+
+	#struct dirent *entryname;
+	#struct stat filestat;
+        
+    unsign i = 0
+    
+    #directory = opendir(fsplusplus::GetCurrentWorkingDir().c_str());
+    
+    #if(directory == NULL) {
+        @print "Error: Directory not found.\n"
+    }
+
+    #while((entryname = readdir(directory))) {
+        #stat(entryname->d_name, &filestat);
+        	
+        #if(entryname->d_type == DT_DIR) {
+            @print "["
+            @print i
+            @print "] "
+            @print entryname->d_name 
+            @print "\n"
+            
+            #i++;
+            
+            #dirs.push_back(entryname->d_name); 
+        } 
+    }
+   	 
+    #closedir(directory);
+}
+
+@main int {
+    string _number = ""
+    
+    #std::vector<std::string> files;
+
+    
+    #retry:
+    @print fsplusplus::GetCurrentWorkingDir()
+    @print "\n"
+    
+    #PushDirectories(files);
+    
+    @print "\n>> "
+    
+    #std::cin >> _number;   
+    
+    #while(_number != "q") {
+        #chdir(files[atoi(_number.c_str())].c_str());
+        
+        #itui::clear_buffer();
+        #itui::refresh_buffer(); 
+        
+        #files.clear();
+        
+        #goto retry; 
+    }
+	
+	#itui::clear_buffer();
+	
+    @return 0
+}
