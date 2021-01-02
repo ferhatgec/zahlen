@@ -115,6 +115,7 @@
     
     #PushDirectories(files);
     
+    @print BOLD_LIGHT_WHITE_COLOR
     @print "\n>> "
     
     #std::cin >> _number;   
@@ -125,14 +126,16 @@
             
             @print BOLD_LIGHT_BLUE_COLOR
             @print fsplusplus::GetCurrentWorkingDir()  
-            @print "\n"
+            @print "\n\n"
             
+            @print BOLD_LIGHT_WHITE_COLOR
             @print fsplusplus::ReadFileWithReturn(files[atoi(_number.c_str())])
             
             @print "\n>> "
             #std::cin >> _number;
             
             #if(_number == "q") {
+                #itui::clear_buffer();
                 #_number = "";
                 #goto retry;
             }
