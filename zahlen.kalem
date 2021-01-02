@@ -49,7 +49,7 @@
 
 	#struct dirent *entryname;
 	#struct stat filestat;
-        
+  
     unsign i = 0
     
     #directory = opendir(fsplusplus::GetCurrentWorkingDir().c_str());
@@ -60,7 +60,7 @@
 
     #while((entryname = readdir(directory))) {
         #stat(entryname->d_name, &filestat);
-        	
+
         #if(entryname->d_type == DT_DIR) {
             @print BOLD_LIGHT_BLUE_COLOR  
             @print "["
@@ -79,10 +79,29 @@
             
             #dirs.push_back(entryname->d_name); 
         } 
+        #else {
+            @print BOLD_LIGHT_BLUE_COLOR  
+            @print "["
+            
+            @print BOLD_YELLOW_COLOR
+            @print i
+            
+            @print BOLD_LIGHT_BLUE_COLOR
+            @print "] "
+            
+            @print BOLD_LIGHT_BLACK_COLOR
+            @print entryname->d_name 
+            @print "\n"
+            
+            #i++;
+            
+            #dirs.push_back(entryname->d_name); 
+        }
     }
-   	 
+   	                                                        
     #closedir(directory);
 }
+
 
 @main int {
     string _number = ""
@@ -102,6 +121,7 @@
     #std::cin >> _number;   
     
     #while(_number != "q") {
+               
         #chdir(files[atoi(_number.c_str())].c_str());
         
         #itui::clear_buffer();
