@@ -12,6 +12,38 @@
 #import "libraries/FileSystemPlusPlus.h"
 #import "libraries/IntelligenTUI.hpp"
 
+
+#defn RED_COLOR "\033[0;31m"
+#defn GREEN_COLOR "\033[0;32m"
+#defn YELLOW_COLOR "\033[0;33m"
+#defn BLUE_COLOR "\033[0;34m"
+#defn MAGENTA_COLOR "\033[0;35m"
+#defn CYAN_COLOR "\033[0;36m"
+#defn LIGHT_BLACK_COLOR "\033[0;90m"
+#defn LIGHT_RED_COLOR "\033[0;91m"
+#defn LIGHT_GREEN_COLOR "\033[0;92m"
+#defn LIGHT_YELLOW_COLOR "\033[0;93m"
+#defn LIGHT_BLUE_COLOR "\033[0;94m"
+#defn LIGHT_MAGENTA_COLOR "\033[0;95m"
+#defn LIGHT_CYAN_COLOR "\033[0;96m"
+#defn LIGHT_WHITE_COLOR "\033[0;97m"
+
+// Default bold** color definitions
+#defn BOLD_RED_COLOR "\033[1;31m"
+#defn BOLD_GREEN_COLOR "\033[1;32m"
+#defn BOLD_YELLOW_COLOR "\033[01;33m"
+#defn BOLD_BLUE_COLOR "\033[1;34m"
+#defn BOLD_MAGENTA_COLOR "\033[1;35m"
+#defn BOLD_CYAN_COLOR "\033[1;36m"
+#defn BOLD_LIGHT_BLACK_COLOR "\033[1;90m"
+#defn BOLD_LIGHT_RED_COLOR "\033[1;91m"
+#defn BOLD_LIGHT_GREEN_COLOR "\033[1;92m"
+#defn BOLD_LIGHT_YELLOW_COLOR "\033[1;93m"
+#defn BOLD_LIGHT_BLUE_COLOR "\033[1;94m"
+#defn BOLD_LIGHT_MAGENTA_COLOR "\033[1;95m"
+#defn BOLD_LIGHT_CYAN_COLOR "\033[1;96m"
+#defn BOLD_LIGHT_WHITE_COLOR "\033[1;97m"
+
 @PushDirectories(std::vector<std::string> &dirs) void {
     #DIR *directory;
 
@@ -30,9 +62,16 @@
         #stat(entryname->d_name, &filestat);
         	
         #if(entryname->d_type == DT_DIR) {
+            @print BOLD_LIGHT_BLUE_COLOR  
             @print "["
+            
+            @print BOLD_YELLOW_COLOR
             @print i
+            
+            @print BOLD_LIGHT_BLUE_COLOR
             @print "] "
+            
+            @print BOLD_LIGHT_WHITE_COLOR
             @print entryname->d_name 
             @print "\n"
             
@@ -52,7 +91,8 @@
 
     
     #retry:
-    @print fsplusplus::GetCurrentWorkingDir()
+    @print BOLD_LIGHT_BLUE_COLOR
+    @print fsplusplus::GetCurrentWorkingDir()  
     @print "\n"
     
     #PushDirectories(files);
