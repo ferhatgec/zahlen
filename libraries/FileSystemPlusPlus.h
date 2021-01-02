@@ -60,6 +60,23 @@ namespace fsplusplus {
         struct stat buffer;
     	return (stat(path.c_str(), &buffer) == 0);
 	}
+	
+	
+    /*
+        -1 : error
+        0  : directory
+        +1 : file
+        -2 : anything else?
+    */
+    static int8_t TypeOf(std::string path)  {
+        struct stat info;
+
+        if(stat(path.c_str(), &info) != 0) return -1;
+        else if(info.st_mode & S_IFDIR) return 0;
+        else return 1;
+        
+        return -2;
+    }
 
 
 	static void List() {

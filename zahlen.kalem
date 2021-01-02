@@ -108,7 +108,6 @@
     
     #std::vector<std::string> files;
 
-    
     #retry:
     @print BOLD_LIGHT_BLUE_COLOR
     @print fsplusplus::GetCurrentWorkingDir()  
@@ -121,7 +120,25 @@
     #std::cin >> _number;   
     
     #while(_number != "q") {
-               
+        #if(fsplusplus::TypeOf(files[atoi(_number.c_str())]) == 1) {
+            #itui::clear_buffer();
+            
+            @print BOLD_LIGHT_BLUE_COLOR
+            @print fsplusplus::GetCurrentWorkingDir()  
+            @print "\n"
+            
+            @print fsplusplus::ReadFileWithReturn(files[atoi(_number.c_str())])
+            
+            @print "\n>> "
+            #std::cin >> _number;
+            
+            #if(_number == "q") {
+                #_number = "";
+                #goto retry;
+            }
+        }
+        
+                      
         #chdir(files[atoi(_number.c_str())].c_str());
         
         #itui::clear_buffer();
