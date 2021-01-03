@@ -59,10 +59,10 @@
         @print "Error: Directory not found.\n"
     }
 
-    #while((entryname = readdir(directory))) {
+    while ((entryname = readdir(directory))) {
         #stat(entryname->d_name, &filestat);
 
-        #if(entryname->d_type == DT_DIR) {
+        if (entryname->d_type == DT_DIR) {
             @print BOLD_LIGHT_BLUE_COLOR  
             @print "["
             
@@ -80,7 +80,7 @@
             
             #dirs.push_back(entryname->d_name); 
         } 
-        #else {
+        els {
             @print BOLD_LIGHT_BLUE_COLOR  
             @print "["
             
@@ -142,15 +142,16 @@
     #std::vector<std::string> files;
 
     @retry:
+    #itui::clear_buffer();
     @CurrentDirBuffer()
     
-    #if(_type == 0) {
+    if (_type == 0) {
         #PushDirectories(files);
     }
-    #else if(_type == 1) {
+    elsif (_type == 1) {
         #InformationBuffer(files[atoi(_number.c_str())]);
     }
-    #else if(_type == 2) {
+    elsif (_type == 2) {
         @print BOLD_LIGHT_WHITE_COLOR
         @print fsplusplus::ReadFileWithReturn(files[atoi(_number.c_str())])
     }
@@ -160,19 +161,19 @@
     
     #std::getline(std::cin, _number);   
     
-    #while(_type >= 0) {
-        #if(_number == "q") {
-            #if(_type != 0) {
+    while (_type >= 0) {
+        if (_number == "q") {
+            if (_type != 0) {
                 #_type = 0;
                 @goto retry
             }
-            #else {
+            els {
                 #break;
             }
         }
         
-        #if(_number[0] == '-' && _number[1] == '-') {
-            #if(_number[2] == 'i') {
+        if (_number[0] == '-' && _number[1] == '-') {
+            if (_number[2] == 'i') {
                 #/* --i <number> */
                 
                 #_number = _number.erase(0, 3);
@@ -181,7 +182,7 @@
             
             @goto retry
         }
-        #else if(fsplusplus::TypeOf(files[atoi(_number.c_str())]) == 1) {
+        elsif (fsplusplus::TypeOf(files[atoi(_number.c_str())]) == 1) {
             #_type = 2;
             @goto retry
         }
