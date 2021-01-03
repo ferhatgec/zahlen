@@ -44,7 +44,7 @@
 #defn BOLD_LIGHT_CYAN_COLOR "\033[1;96m"
 #defn BOLD_LIGHT_WHITE_COLOR "\033[1;97m"
 
-@PushDirectories(std::vector<std::string> &dirs) void {
+@PushDirectories(vect < string > &dirs) void {
     #DIR *directory;
 
 	#struct dirent *entryname;
@@ -108,8 +108,7 @@
     
     #std::vector<std::string> files;
 
-    #retry:
-    @print BOLD_LIGHT_BLUE_COLOR
+    @retry: @print BOLD_LIGHT_BLUE_COLOR
     @print fsplusplus::GetCurrentWorkingDir()  
     @print "\n"
     
@@ -137,7 +136,7 @@
             #if(_number == "q") {
                 #itui::clear_buffer();
                 #_number = "";
-                #goto retry;
+                @goto retry
             }
         }
         
@@ -149,7 +148,7 @@
         
         #files.clear();
         
-        #goto retry; 
+        @goto retry 
     }
 	
 	#itui::clear_buffer();
