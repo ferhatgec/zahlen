@@ -7,6 +7,7 @@
 // Import STL C++ libraries
 #import <iostream>
 #import <vector>
+#import <filesystem>
 
 // Import PlusPlus libraries
 #import "libraries/FileSystemPlusPlus.h"
@@ -102,45 +103,89 @@
     #closedir(directory);
 }
 
+@Size(string path) void {	
+    #itui::clear_buffer();
+	#std::filesystem::path _path = std::filesystem::current_path() / path;
+	
+	#try {
+        @print "Size: "
+        #std::cout << std::filesystem::file_size(_path);
+        
+        @print "byte\n"
+    #} catch(std::filesystem::filesystem_error& e) {
+        @print "Huh!: "
+        @print e.what();
+    #}    
+}
+
+@InformationBuffer(string file) void {
+    #itui::clear_buffer();
+    
+    @print "Name: "
+    @print file
+    
+    @print "\n"
+    
+    #Size(file);
+}
+
+@CurrentDirBuffer void {
+    @print BOLD_LIGHT_BLUE_COLOR
+    @print fsplusplus::GetCurrentWorkingDir()  
+    @print "\n"
+}
 
 @main int {
     string _number = ""
+    unsign _type = 0 
     
     #std::vector<std::string> files;
 
-    @retry: @print BOLD_LIGHT_BLUE_COLOR
-    @print fsplusplus::GetCurrentWorkingDir()  
-    @print "\n"
+    @retry:
+    @CurrentDirBuffer()
     
-    #PushDirectories(files);
+    #if(_type == 0) {
+        #PushDirectories(files);
+    }
+    #else if(_type == 1) {
+        #InformationBuffer(files[atoi(_number.c_str())]);
+    }
+    #else if(_type == 2) {
+        @print BOLD_LIGHT_WHITE_COLOR
+        @print fsplusplus::ReadFileWithReturn(files[atoi(_number.c_str())])
+    }
     
     @print BOLD_LIGHT_WHITE_COLOR
     @print "\n>> "
     
-    #std::cin >> _number;   
+    #std::getline(std::cin, _number);   
     
-    #while(_number != "q") {
-        #if(fsplusplus::TypeOf(files[atoi(_number.c_str())]) == 1) {
-            #itui::clear_buffer();
-            
-            @print BOLD_LIGHT_BLUE_COLOR
-            @print fsplusplus::GetCurrentWorkingDir()  
-            @print "\n\n"
-            
-            @print BOLD_LIGHT_WHITE_COLOR
-            @print fsplusplus::ReadFileWithReturn(files[atoi(_number.c_str())])
-            
-            @print "\n>> "
-            #std::cin >> _number;
-            
-            #if(_number == "q") {
-                #itui::clear_buffer();
-                #_number = "";
+    #while(_type >= 0) {
+        #if(_number == "q") {
+            #if(_type != 0) {
+                #_type = 0;
                 @goto retry
+            }
+            #else {
+                #break;
             }
         }
         
-                      
+        #if(_number[0] == '-' && _number[1] == '-') {
+            #if(_number[2] == 'i') {
+                #/* --i <number> */
+                
+                #_number = _number.erase(0, 3);
+                #_type = 1;
+            }
+            
+            @goto retry
+        }
+        #else if(fsplusplus::TypeOf(files[atoi(_number.c_str())]) == 1) {
+            #_type = 2;
+            @goto retry
+        }
+                     
         #chdir(files[atoi(_number.c_str())].c_str());
         
         #itui::clear_buffer();
