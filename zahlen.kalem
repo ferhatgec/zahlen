@@ -5,9 +5,9 @@
 //
 
 // Import STL C++ libraries
-#import <iostream>
-#import <vector>
-#import <filesystem>
+#import <ios>
+#import <vect>
+#import <filesys>
 
 // Import PlusPlus libraries
 #import "libraries/FileSystemPlusPlus.h"
